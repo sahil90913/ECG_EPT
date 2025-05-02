@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Presto Dashboard</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffffff;
+      color: #111;
+      display: flex;
+      height: 100vh;
+    }
+
+    .sidebar {
+      width: 64px;
+      background-color: #f3f4f6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem 0;
+      border-right: 1px solid #e5e7eb;
+    }
+
+    .sidebar svg {
+      width: 24px;
+      height: 24px;
+      margin: 1.2rem 0;
+      color: #4b5563;
+      cursor: pointer;
+    }
+
+    .sidebar .logo {
+      margin-bottom: 2rem;
+    }
+
+    .sidebar .footer {
+      margin-top: auto;
+      font-size: 10px;
+      color: #6b7280;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .main {
+      flex: 1;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 3rem;
+    }
+
+    .header .title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #2563eb;
+    }
+
+    .header .plan {
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+
+    .welcome {
+      text-align: center;
+    }
+
+    .welcome h1 {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 2rem;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .actions button {
+      padding: 0.75rem 1.5rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      background-color: white;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .actions button:hover {
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .illustration img {
+      width: 200px;
+      margin: 2rem auto;
+    }
+
+    .prompt {
+      color: #6b7280;
+      margin-bottom: 1.5rem;
+    }
+
+    .prompt span {
+      font-weight: 500;
+    }
+
+    .input-box {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .input-box input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">
+      <svg viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="10" fill="#3b82f6" />
+        <polygon points="10,8 16,12 10,16" fill="white" />
+      </svg>
+    </div>
+    <svg viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2"/></svg>
+    <svg viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke="currentColor" stroke-width="2"/></svg>
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/></svg>
+    <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2"/></svg>
+    <svg viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke="currentColor" stroke-width="2"/></svg>
+    <div class="footer">
+      <div>100 of 100</div>
+      <div>STEDITOR</div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="header">
+      <div class="title">Presto</div>
+      <div class="user-info">
+        <span class="plan">Free plan - 100 credits left</span>
+        <span style="margin-left: 1rem;">👤</span>
+      </div>
+    </div>
+
+    <div class="welcome">
+      <h1>Welcome back, Taylor!</h1>
+
+      <div class="actions">
+        <button>Summarize this document</button>
+        <button>💡 Create a blog outline</button>
+        <button>📊 Analyze sales data</button>
+      </div>
+
+      <div class="illustration">
+        <img src="https://static.vecteezy.com/system/resources/previews/007/319/849/original/woman-using-laptop-working-freelance-concept-illustration-flat-design-eps10-modern-graphic-element-for-landing-page-empty-state-ui-infographic-vector.jpg" alt="illustration" />
+      </div>
+
+      <div class="prompt">
+        Try asking: <span>"Give me marketing ideas for April!"</span>
+      </div>
+
+      <div class="input-box">
+        <input type="text" placeholder="Ask me anything..." />
+      </div>
+    </div>
+  </div>
+</body>
+</html>

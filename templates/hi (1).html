@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECG Analysis Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #0d1b2a;
+            background-image: url('i want a background image for my ECG website in light grey color having a heartbeat little from left side only.jpg'); /* Add your image URL here */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: -20% 20%;
+            color: rgb(255, 255, 255);
+            line-height: 1.8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Header Section */
+        header {
+            width: 100%;
+            background-color: rgba(13, 16, 36, 0.9); /* Slight transparency for background image */
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .nav-bar {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-bar img {
+            height: 60px; /* Adjust the size of the logo */
+            width: auto;
+        }
+
+        .nav-bar button {
+            background-color: #0079FF;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-bar button:hover {
+            background-color: #8b8b8b;
+        }
+
+        /* Dropdown Menu Styling */
+        .has-dropdown {
+            position: relative; /* Ensures the dropdown is positioned relative to its button */
+        }
+
+        .dropdown {
+            position: absolute; /* Position the dropdown relative to the parent */
+            top: 100%; /* Align the dropdown just below the button */
+            left: 0; /* Start the dropdown from the left edge of the button */
+            display: none;
+            background-color: #3892ec;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+            z-index: 1000;
+            width: max-content; /* Adjust dropdown width to fit content */
+            padding: 10px 0;
+            margin-top: 20px;
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 10px 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+
+        .dropdown a:hover {
+            background-color: #005bb5;
+        }
+
+        /* Show dropdown on hover */
+        .nav-bar .has-dropdown:hover .dropdown {
+            display: block;
+        }
+
+        /* Welcome Section */
+        .welcome-section {
+            text-align: center;
+            margin-top: 90px;
+            margin-bottom: 10px;
+            padding: 0 40px;
+        }
+
+        .welcome-section h1 {
+            font-size: 5rem;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .welcome-section p {
+            margin-top: 150px;
+            font-size: 1.9rem;
+            color: #f1f8ed;
+        }
+
+        /* Buttons Section */
+        .buttons-section {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 10px 0;
+        }
+
+        /* File Input Styling */
+        .file-input-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .file-input-container input[type="file"] {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            background-color: #0079FF;
+            border: none;
+            border-radius: 8px;
+            padding: 16px 32px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-input-container input[type="file"]:hover {
+            background-color: #005bb5;
+        }
+
+        /* Analyze Button Styling */
+        .analyze-button {
+            background-color: #0079FF;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 16px 32px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .analyze-button:hover {
+            background-color: #005bb5;
+        }
+
+        /* Result Display Section */
+        .result-section {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: rgba(13, 16, 36, 0.9);
+            border-radius: 8px;
+            width: 80%;
+            max-width: 600px;
+            text-align: left;
+        }
+
+        .result-section h2 {
+            margin-bottom: 10px;
+        }
+
+        .result-section p {
+            margin: 5px 0;
+        }
+
+        /* Chatbot Image Section */
+        .chatbot-img {
+            position: fixed;
+            bottom: 20px; /* Position the chatbot 20px from the bottom */
+            right: 20px; /* Position the chatbot 20px from the right */
+            width: 80px; /* Set the size of the chatbot icon */
+            height: 80px; /* Make the image square */
+            background-color: #3d3d3d; /* Background color for the circle */
+            border-radius: 50%; /* Make the image circular */
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chatbot-img img {
+            width: 130%;
+            height: 130%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="nav-bar">
+            <img src="logo.png" alt="ECG Logo"> <!-- Add your logo image here -->
+            <button>Home</button>
+            <div class="has-dropdown">
+                <button>Services</button>
+                <div class="dropdown">
+                    <a href="#">AI-Powered ECG Interpretation</a>
+                    <a href="#">Customizable Report Generation</a>
+                    <a href="#">Subscription Plans</a>
+                    <a href="#">Personalized Health Insights</a>
+                </div>
+            </div>
+            <div class="has-dropdown">
+                <button>Instruction</button>
+                <div class="dropdown">
+                    <a href="#">Upload a scanned image of a 12-lead ECG below. <br>The tool will generate a complete diagnostic report.</a>
+                    <a href="#">Note: This tool is meant only for 12-lead ECGs.</a>
+                </div>
+            </div>
+            <div class="has-dropdown">
+                <button>Contact Us</button>
+                <div class="dropdown">
+                    <a href="#">Email: ecggptorg@gmail.com.</a>
+                    <a href="#">Phone: +91 97485 26793</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Welcome Section -->
+    <div class="welcome-section">
+        <h1>Welcome to ECG GPT</h1>
+        <p>Effortlessly upload your ECG data <br>Receive instant interpretations with customizable reports.</p>
+    </div>
+
+    <!-- Buttons Section -->
+    <div class="buttons-section">
+        <!-- File Upload Input -->
+        <div class="file-input-container">
+            <input type="file" id="ecg-upload" name="ecg-upload" accept="image/*" required>
+        </div>
+        <!-- Analyze Button -->
+        <button class="analyze-button" id="analyze-button">Analyze</button>
+    </div>
+
+    <!-- Result Display Section -->
+    <div class="result-section" id="result-section" style="display: none;">
+        <h2>Analysis Result</h2>
+        <p><strong>Heart Rate:</strong> <span id="heart-rate">-</span></p>
+        <p><strong>Rhythm:</strong> <span id="rhythm">-</span></p>
+        <p><strong>Diagnosis:</strong> <span id="diagnosis">-</span></p>
+    </div>
+
+    <!-- Chatbot Image -->
+    <div class="chatbot-img">
+        <img src="chatbot.jpeg" alt="Chatbot"> <!-- Add your chatbot image here -->
+    </div>
+
+    <script>
+        // Handle file upload and analysis
+        document.getElementById('analyze-button').addEventListener('click', function () {
+            const fileInput = document.getElementById('ecg-upload');
+            const file = fileInput.files[0];
+            if (file) {
+                const formData = new FormData();
+                formData.append('file', file);
+
+                // Send the file to the backend for analysis
+                fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                    } else {
+                        // Display the analysis result
+                        document.getElementById('heart-rate').textContent = data.analysis.heart_rate;
+                        document.getElementById('rhythm').textContent = data.analysis.rhythm;
+                        document.getElementById('diagnosis').textContent = data.analysis.diagnosis;
+                        document.getElementById('result-section').style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while processing the file.');
+                });
+            } else {
+                alert('Please upload a file first.');
+            }
+        });
+    </script>
+</body>
+</html>

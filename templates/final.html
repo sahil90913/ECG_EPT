@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload ECG Image</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center content horizontally */
+            background-color: #003366; /* Dark blue background */
+            color: white;
+        }
+        nav {
+            width: 100%;
+            background-color: #002244; /* Darker blue for the nav bar */
+            padding: 10px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: flex-start; /* Align items to the left */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 20px; /* Add padding to buttons */
+            background-color: #007BFF; /* Blue background for buttons */
+            border-radius: 5px; /* Rounded corners for buttons */
+            transition: background-color 0.3s ease; /* Smooth hover effect */
+        }
+        nav a:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+        .welcome-text {
+            font-size: 108px; /* 3x larger (36px * 3) */
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 40px; /* Space between welcome text and upload section */
+        }
+        .upload-container {
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            background-color: white;
+            color: #333;
+            text-align: center;
+        }
+        input[type="file"] {
+            margin-top: 10px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">Services</a>
+        <a href="#">Instruction</a>
+        <a href="#">Contact Us</a>
+    </nav>
+
+    <div class="welcome-text">Welcome to ECG GPT</div>
+
+    <div class="upload-container">
+        <h1>Upload ECG Image for Analysis</h1>
+        <form action="/" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" required>
+            <br>
+            <button type="submit">Upload and Analyze</button>
+        </form>
+    </div>
+</body>
+</html>

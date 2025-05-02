@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECG GPT - Login Required</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #003366;
+            color: white;
+            background-image: linear-gradient(to bottom right, #002244, #004488);
+        }
+        
+        /* Navigation */
+        nav {
+            width: 100%;
+            background-color: rgba(0, 34, 68, 0.9);
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+        }
+        
+        nav .left-links, nav .right-links {
+            display: flex;
+            align-items: center;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        nav a:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        
+        /* Main Content */
+        .auth-container {
+            text-align: center;
+            max-width: 600px;
+            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 60px;
+        }
+        
+        .welcome-text {
+    color: transparent;
+    -webkit-text-stroke: 1px #a0d1ff;
+    -webkit-text-stroke: 1px #a0d1ff;
+    position: relative;
+}
+ .welcome-text::before {
+    content: attr(data-text);
+    position: absolute;
+    width: 0;
+    color: #a0d1ff;
+    overflow: hidden;
+    transition: 1s;
+    border-right: 2px solid #a0d1ff;
+    animation: animate 3s linear infinite;
+}
+@keyframes animate {
+    0%, 10%, 100% { width: 0; }
+    70%, 90% { width: 100%; }
+}
+        
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+        
+        /* Upload Section (Hidden Initially) */
+        .upload-container {
+            display: none;
+            padding: 30px;
+            border-radius: 12px;
+            background-color: rgba(255, 255, 255, 0.95);
+            color: #333;
+            text-align: center;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+            margin-top: 30px;
+        }
+        
+        .upload-container h1 {
+            color: #002244;
+            margin-bottom: 20px;
+        }
+        
+        /* Forms */
+        .form-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 30px;
+            border-radius: 12px;
+            background-color: rgba(255, 255, 255, 0.98);
+            color: #333;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translate(-50%, -45%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+        
+        .form-popup h1 {
+            color: #002244;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+        
+        .form-popup input {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        
+        .form-popup input:focus {
+            border-color: #007BFF;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+        }
+        
+        .form-popup button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+        
+        .form-popup button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        
+        .form-popup button.secondary {
+            background-color: #6c757d;
+        }
+        
+        .form-popup button.secondary:hover {
+            background-color: #5a6268;
+        }
+        
+        /* Overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 999;
+        }
+        
+        /* Error Messages */
+        .error-message {
+            color: #dc3545;
+            margin-top: 10px;
+            font-size: 14px;
+            display: none;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .welcome-text {
+                font-size: 2.5rem;
+            }
+            
+            nav a {
+                padding: 8px 15px;
+                margin: 0 8px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="left-links">
+            <a href="#">Home</a>
+            <a href="#">Services</a>
+            <a href="#">Instruction</a>
+            <a href="#">Contact Us</a>
+        </div>
+        <div class="right-links">
+            <a href="#" onclick="openForm('login')">Login</a>
+            <a href="#" onclick="openForm('register')">Register</a>
+        </div>
+    </nav>
+
+    <!-- Main Content (Shown when not logged in) -->
+    <div class="auth-container" id="authContainer">
+        <div class="welcome-text">ECG Analysis</div>
+        <div class="subtitle">Please login or register to access our ECG analysis tools</div>
+        
+        <div style="display: flex; gap: 20px; justify-content: center;">
+            <button onclick="openForm('login')" style="padding: 12px 30px; font-size: 16px; border-radius: 30px; background: #007BFF; color: white; border: none; cursor: pointer; transition: all 0.3s;">
+                Login
+            </button>
+            <button onclick="openForm('register')" style="padding: 12px 30px; font-size: 16px; border-radius: 30px; background: #28a745; color: white; border: none; cursor: pointer; transition: all 0.3s;">
+                Register
+            </button>
+        </div>
+    </div>
+
+    <!-- Upload Section (Hidden until login) -->
+    <div class="upload-container" id="uploadSection">
+        <h1>Upload ECG Image for Analysis</h1>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <input type="file" name="file" accept="image/*" required>
+            <br>
+            <button type="submit">Upload and Analyze</button>
+        </form>
+        
+        <div class="user-info" style="margin-top: 30px;">
+            <h2>Additional Information</h2>
+            <input type="text" id="userName" placeholder="Your name (optional)">
+            <input type="number" id="userAge" placeholder="Your age (optional)">
+        </div>
+    </div>
+
+    <!-- Login Form -->
+    <div id="loginForm" class="form-popup">
+        <h1>Login</h1>
+        <form id="loginFormElement">
+            <input type="email" name="email" placeholder="Enter your email" required>
+            <input type="password" name="password" placeholder="Enter your password" required>
+            <div class="error-message" id="loginError"></div>
+            <button type="submit">Login</button>
+            <button type="button" class="secondary" onclick="closeForm()">Close</button>
+        </form>
+    </div>
+
+    <!-- Register Form -->
+    <div id="registerForm" class="form-popup">
+        <h1>Register</h1>
+        <form id="registerFormElement">
+            <input type="text" name="name" placeholder="Your full name" required>
+            <input type="email" name="email" placeholder="Email address" required>
+            <input type="password" name="password" placeholder="Create password (min 8 chars)" required minlength="8">
+            <div class="error-message" id="registerError"></div>
+            <button type="submit">Register</button>
+            <button type="button" class="secondary" onclick="closeForm()">Close</button>
+        </form>
+    </div>
+
+    <!-- Overlay -->
+    <div id="overlay" class="overlay"></div>
+
+    <script>
+        // Check authentication state on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('isAuthenticated'))
+            {
+                showAuthenticatedUI();
+            }
+        });
+
+        // Form handling
+        document.getElementById('loginFormElement').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const errorElement = document.getElementById('loginError');
+            
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    handleAuthSuccess(result);
+                } else {
+                    errorElement.textContent = result.error || "Login failed. Please try again.";
+                    errorElement.style.display = 'block';
+                }
+            } catch (error) {
+                errorElement.textContent = "Network error. Please check your connection.";
+                errorElement.style.display = 'block';
+            }
+        });
+
+        document.getElementById('registerFormElement').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const errorElement = document.getElementById('registerError');
+            
+            try {
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    handleAuthSuccess(result);
+                } else {
+                    errorElement.textContent = result.error || "Registration failed. Please try again.";
+                    errorElement.style.display = 'block';
+                }
+            } catch (error) {
+                errorElement.textContent = "Network error. Please check your connection.";
+                errorElement.style.display = 'block';
+            }
+        });
+
+        // Upload form handling
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!localStorage.getItem('isAuthenticated')) {
+                alert('Please login first');
+                return;
+            }
+            
+            const formData = new FormData(e.target);
+            formData.append('name', document.getElementById('userName').value);
+            formData.append('age', document.getElementById('userAge').value);
+            
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    alert('ECG analysis complete!');
+                    // Handle results here
+                } else {
+                    alert(result.error || "Upload failed. Please try again.");
+                }
+            } catch (error) {
+                alert("Network error during upload.");
+            }
+        });
+
+        // UI Functions
+        function openForm(formType) {
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById(`${formType}Form`).style.display = 'block';
+            document.getElementById(`${formType}Error`).style.display = 'none';
+        }
+
+        function closeForm() {
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'none';
+        }
+
+        function handleAuthSuccess(response) {
+            localStorage.setItem('isAuthenticated', 'true');
+            localStorage.setItem('userName', response.name || 'User');
+            showAuthenticatedUI();
+            closeForm();
+        }
+
+        function showAuthenticatedUI() {
+            document.getElementById('authContainer').style.display = 'none';
+            document.getElementById('uploadSection').style.display = 'block';
+            
+            // Update UI with user info if available
+            const userName = localStorage.getItem('userName');
+            if (userName) {
+                document.getElementById('userName').value = userName;
+            }
+        }
+
+        // Close forms when clicking overlay
+        document.getElementById('overlay').addEventListener('click', closeForm);
+    </script>
+</body>
+</html>

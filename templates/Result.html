@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECG Analysis Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+        }
+        .result-container {
+            margin-top: 20px;
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            display: inline-block;
+            opacity: 0; /* Start with 0 opacity */
+            transform: translateY(20px); /* Start slightly below */
+            transition: opacity 0.5s ease, transform 0.5s ease; /* Smooth transition */
+            background-color: #003366; /* Dark blue background */
+            color: white; /* White text color */
+            position: relative; /* For positioning the face animation */
+        }
+        .result-container.visible {
+            opacity: 1; /* Fully visible */
+            transform: translateY(0); /* Move to original position */
+        }
+        h2 {
+            font-size: 2.5em; /* Double the size of the Diagnosis heading */
+        }
+        p {
+            font-size: 2em; /* Double the size of the Diagnosis text */
+        }
+        a {
+            display: block;
+            margin-top: 20px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #007BFF;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .face {
+            position: absolute;
+            right: -100px; /* Position to the right of the diagnosis section */
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 60px;
+            animation: bounce 1.5s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(-50%) scale(1);
+            }
+            50% {
+                transform: translateY(-50%) scale(1.2);
+            }
+        }
+        .smile {
+            color: #4CAF50; /* Green color for smiley face */
+        }
+        .sad {
+            color: #FF5252; /* Red color for sad face */
+        }
+    </style>
+</head>
+<body>
+    <h1>ECG Analysis Result</h1>
+    <img src="{{ image }}" alt="Uploaded ECG Image">
+    
+    <div class="result-container" id="diagnosis">
+        <h2>Diagnosis:</h2>
+        <p>{{ prediction }}</p>
+        <!-- Face animation will be added here dynamically -->
+        <div id="faceAnimation" class="face"></div>
+    </div>
+
+    <a href="/">Upload Another Image</a>
+
+    <script>
+        // Function to check if the diagnosis section is in the viewport
+        function isInViewport(element) {
+            const rect = element.getBoundingClientRect();
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        }
+
+        // Function to handle scroll events
+        function handleScroll() {
+            const diagnosisSection = document.getElementById('diagnosis');
+            if (isInViewport(diagnosisSection)) {
+                diagnosisSection.classList.add('visible'); // Add visible class
+            } else {
+                diagnosisSection.classList.remove('visible'); // Remove visible class
+            }
+        }
+
+        // Add scroll event listener
+        window.addEventListener('scroll', handleScroll);
+
+        // Trigger the scroll handler once on page load
+        handleScroll();
+
+        // Function to add the face animation based on the diagnosis
+        function addFaceAnimation() {
+            const diagnosisText = "{{ prediction }}".toLowerCase().trim(); // Get the diagnosis text and normalize it
+            const faceAnimation = document.getElementById('faceAnimation');
+
+            if (diagnosisText.includes("Normal")) {
+                faceAnimation.innerHTML = ""; // Smiley face
+                faceAnimation.classList.add('smile'); // Add smile class
+                faceAnimation.classList.remove('sad'); // Remove sad class
+            } else {
+                faceAnimation.innerHTML = ""; // Sad face
+                faceAnimation.classList.add('sad'); // Add sad class
+                faceAnimation.classList.remove('smile'); // Remove smile class
+            }
+        }
+
+        // Call the function to add the face animation
+        addFaceAnimation();
+    </script>
+</body>
+</html>
